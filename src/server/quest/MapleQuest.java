@@ -110,7 +110,11 @@ public class MapleQuest {
         if (startReqData != null) {
             for (MapleData startReq : startReqData.getChildren()) {
                 MapleQuestRequirementType type = MapleQuestRequirementType.getByWZName(startReq.getName());
-                if (type.equals(MapleQuestRequirementType.INTERVAL)) {
+                if(id==8248){
+                    System.out.println("startReq.getName():"+startReq.getName());
+                    System.out.println("MapleQuestRequirementType:"+type);
+                }
+                if (type.equals(MapleQuestRequirementType.INTERVAL) || type.equals(MapleQuestRequirementType.DAY_OF_WEEK)) {
                     repeatable = true;
                 } else if (type.equals(MapleQuestRequirementType.MOB)) {
                     for (MapleData mob : startReq.getChildren()) {
@@ -205,6 +209,9 @@ public class MapleQuest {
         if(!repeatable) return false;
         
         IntervalRequirement ir = (IntervalRequirement) startReqs.get(MapleQuestRequirementType.INTERVAL);
+
+        if(ir==null) return true;
+
         return ir.getInterval() < YamlConfig.config.server.QUEST_POINT_REPEATABLE_INTERVAL * 60 * 60 * 1000;
     }
     

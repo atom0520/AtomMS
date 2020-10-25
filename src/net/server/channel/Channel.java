@@ -298,7 +298,7 @@ public final class Channel {
     
     public void addPlayer(MapleCharacter chr) {
         players.addPlayer(chr);
-        chr.announce(MaplePacketCreator.serverMessage(serverMessage));
+        // chr.announce(MaplePacketCreator.serverMessage(serverMessage));
     }
     
     public String getServerMessage() {

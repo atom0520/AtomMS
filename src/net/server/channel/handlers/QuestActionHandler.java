@@ -68,11 +68,16 @@ public final class QuestActionHandler extends AbstractMaplePacketHandler {
     
     @Override
     public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+        System.out.println("QuestActionHandler.handlePacket");
+
         byte action = slea.readByte();
         short questid = slea.readShort();
         MapleCharacter player = c.getPlayer();
         MapleQuest quest = MapleQuest.getInstance(questid);
-        
+
+        System.out.println("action:"+action);
+        System.out.println("questid:"+questid);
+
         if (action == 0) { // Restore lost item, Credits Darter ( Rajan )
             slea.readInt();
             int itemid = slea.readInt();

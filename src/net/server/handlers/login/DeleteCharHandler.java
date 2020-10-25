@@ -45,8 +45,11 @@ public final class DeleteCharHandler extends AbstractMaplePacketHandler {
 		Logger.getLogger(DeleteCharHandler.class.getName()).log(Level.INFO, "DeleteCharHandler.handlePacket");
 
 		String pic = slea.readMapleAsciiString();
+		Logger.getLogger(DeleteCharHandler.class.getName()).log(Level.INFO, "pic:"+pic);
         int cid = slea.readInt();
-        if (c.checkPic(pic)) {
+		Logger.getLogger(DeleteCharHandler.class.getName()).log(Level.INFO, "cid:"+cid);
+
+		if (c.checkPic(pic)) {
         	//check for family, guild leader, pending marriage, world transfer
         	try (Connection con = DatabaseConnection.getConnection();
         			PreparedStatement ps = con.prepareStatement("SELECT `world`, `guildid`, `guildrank`, `familyId` FROM characters WHERE id = ?");
