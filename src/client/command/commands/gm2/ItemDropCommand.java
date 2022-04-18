@@ -100,7 +100,7 @@ public class ItemDropCommand extends Command {
             toDrop = new Item(itemId, (short) 0, quantity);
         }
 
-        toDrop.setOwner(player.getName());
+//        toDrop.setOwner(player.getName());
         if(player.gmLevel() < 3) {
             short f = toDrop.getFlag();
             f |= ItemConstants.ACCOUNT_SHARING;

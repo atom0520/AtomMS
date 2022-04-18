@@ -162,7 +162,7 @@ server:
     USE_THREAD_TRACKER: false        #[SEVERE] This deadlock auditing thing will bloat the memory as fast as the time frame one takes to lose track of a raindrop on a tempesting day. Only for debugging purposes.
 
     #Database Configuration
-    DB_URL: "jdbc:mysql://localhost:3306/heavenms?characterEncoding=latin1"
+    DB_URL: "jdbc:mysql://localhost:3306/atomms?characterEncoding=latin1"
     DB_USER: "root"
     DB_PASS: "1q2w3e"
     DB_CONNECTION_POOL: true        #Installs a connection pool to hub DB connections. Set false to default.
@@ -209,7 +209,7 @@ server:
     USE_CUSTOM_KEYSET: false             #Enables auto-setup of the HeavenMS's custom keybindings when creating characters.
     USE_DEBUG: false                    #Will enable some text prints on the client, oriented for debugging purposes.
     USE_DEBUG_SHOW_INFO_EQPEXP: false   #Prints on the cmd all equip exp gain info.
-    USE_DEBUG_SHOW_RCVD_PACKET: false   #Prints on the cmd all received packet ids.
+    USE_DEBUG_SHOW_RCVD_PACKET: true   #Prints on the cmd all received packet ids.
     USE_DEBUG_SHOW_RCVD_MVLIFE: false   #Prints on the cmd all received move life content.
     USE_DEBUG_SHOW_PACKET: false
     USE_SUPPLY_RATE_COUPONS: true       #Allows rate coupons to be sold through the Cash Shop.

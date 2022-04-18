@@ -96,6 +96,7 @@ public class MapleItemInformationProvider {
     protected Map<Integer, Short> slotMaxCache = new HashMap<>();
     protected Map<Integer, MapleStatEffect> itemEffects = new HashMap<>();
     protected Map<Integer, Map<String, Integer>> equipStatsCache = new HashMap<>();
+    protected Map<Integer, List<Integer>> cashWeaponTypesCache = new HashMap<>();
     protected Map<Integer, Equip> equipCache = new HashMap<>();
     protected Map<Integer, MapleData> equipLevelInfoCache = new HashMap<>();
     protected Map<Integer, Integer> equipLevelReqCache = new HashMap<>();
@@ -572,6 +573,29 @@ public class MapleItemInformationProvider {
         ret.put("success", MapleDataTool.getInt("success", info, 0));
         ret.put("fs", MapleDataTool.getInt("fs", info, 0));
         equipStatsCache.put(itemId, ret);
+        return ret;
+    }
+
+    public List<Integer> getCashWeaponTypes(int itemId) {
+        if (cashWeaponTypesCache.containsKey(itemId)) {
+            return cashWeaponTypesCache.get(itemId);
+        }
+        List<Integer> ret = new ArrayList<>();
+        MapleData item = getItemData(itemId);
+        if (item == null) {
+            return null;
+        }
+        for (MapleData data : item.getChildren()) {
+            try{
+                int weaponType = Integer.parseInt(data.getName());
+                ret.add(weaponType);
+            }
+            catch (NumberFormatException ex){
+                continue;
+            }
+        }
+
+        cashWeaponTypesCache.put(itemId, ret);
         return ret;
     }
 
@@ -1703,7 +1727,7 @@ public class MapleItemInformationProvider {
         return itemz;
     }
 
-    public boolean canWearEquipment(MapleCharacter chr, Equip equip, int dst) {
+    public boolean canWearEquipment(MapleCharacter chr, Equip equip, short dst) {
         int id = equip.getItemId();
 
         if(ItemConstants.isWeddingRing(id) && chr.hasJustMarried()) {
@@ -1719,6 +1743,25 @@ public class MapleItemInformationProvider {
             AutobanFactory.PACKET_EDIT.alert(chr, chr.getName() + " tried to forcibly equip an item.");
             FilePrinter.printError(FilePrinter.EXPLOITS + chr.getName() + ".txt", chr.getName() + " tried to equip " + itemName + " into " + dst + " slot.");
             return false;
+        }
+
+        if (EquipSlot.getFromTextSlot(islot) == EquipSlot.WEAPON || EquipSlot.getFromTextSlot(islot) == EquipSlot.WEAPON_2) {
+            if (isCash(id)){
+                System.out.println("id: " + id);
+                MapleInventory eqpdInv = chr.getInventory(MapleInventoryType.EQUIPPED);
+                System.out.println("dst: " + dst);
+                System.out.println("eqpdInv.inventory: " + eqpdInv.inventory);
+                Equip eqpdEquip = (Equip) eqpdInv.getItem((short) (dst + 100));
+                System.out.println("eqpdEquip: " + eqpdEquip);
+                System.out.println("eqpdEquip.getItemId(): " + eqpdEquip.getItemId());
+                int eqpdType = (eqpdEquip.getItemId() / 10000) % 100;
+                System.out.println("eqpdType: " + eqpdType);
+                List<Integer> cashWeaponTypes = getCashWeaponTypes(id);
+                System.out.println("cashWeaponTypes: " + cashWeaponTypes);
+                if (!cashWeaponTypes.contains(eqpdType)) {
+                    return false;
+                }
+            }
         }
 
         if (chr.getJob() == MapleJob.SUPERGM || chr.getJob() == MapleJob.GM) {

@@ -92,6 +92,8 @@ public class ReactorActionManager extends AbstractPlayerInteraction {
     }
     
     private static List<ReactorDropEntry> assembleReactorDropEntries(MapleCharacter chr, List<ReactorDropEntry> items) {
+        System.out.println("ReactorActionManager.assembleReactorDropEntries");
+
         final List<ReactorDropEntry> dropEntry = new ArrayList<>();
         final List<ReactorDropEntry> visibleQuestEntry = new ArrayList<>();
         final List<ReactorDropEntry> otherQuestEntry = new ArrayList<>();
@@ -229,16 +231,20 @@ public class ReactorActionManager extends AbstractPlayerInteraction {
     }
 
     private List<ReactorDropEntry> getDropChances() {
+        System.out.println("ReactorActionManager.getDropChances");
+        System.out.println("reactor.getId():"+reactor.getId());
         return ReactorScriptManager.getInstance().getDrops(reactor.getId());
     }
     
     private List<ReactorDropEntry> generateDropList(List<ReactorDropEntry> drops, int dropRate, boolean meso, int mesoChance, int minItems) {
+        System.out.println("ReactorActionManager.generateDropList");
         List<ReactorDropEntry> items = new ArrayList<>();
         if (meso && Math.random() < (1 / (double) mesoChance)) {
             items.add(new ReactorDropEntry(0, mesoChance, -1));
         }
         
         for(ReactorDropEntry mde : drops) {
+            System.out.println("mde.itemId:"+mde.itemId);
             if (Math.random() < (dropRate / (double) mde.chance)) {
                 items.add(mde);
             }

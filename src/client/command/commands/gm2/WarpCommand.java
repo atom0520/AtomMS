@@ -28,6 +28,7 @@ import client.MapleClient;
 import client.MapleCharacter;
 import server.maps.FieldLimit;
 import server.maps.MapleMap;
+import server.maps.MaplePortal;
 import server.maps.MapleMiniDungeonInfo;
 
 public class WarpCommand extends Command {
@@ -43,9 +44,10 @@ public class WarpCommand extends Command {
             return;
         }
 
+        System.out.println("Execute warp command mapID:" + params[0]);
         try {
-            MapleMap target = c.getChannelServer().getMapFactory().getMap(Integer.parseInt(params[0]));
-            if (target == null) {
+            MapleMap targetMap = c.getChannelServer().getMapFactory().getMap(Integer.parseInt(params[0]));
+            if (targetMap == null) {
                 player.yellowMessage("Map ID " + params[0] + " is invalid.");
                 return;
             }
@@ -64,8 +66,18 @@ public class WarpCommand extends Command {
             
             // expedition issue with this command detected thanks to Masterrulax
             player.saveLocationOnWarp();
-            player.changeMap(target, target.getRandomPlayerSpawnpoint());
+
+            if(params.length >= 2){
+                System.out.println("portalID:" + params[1]);
+                MaplePortal targetPortal = targetMap.getPortal(Integer.parseInt(params[1]));
+                System.out.println("targetPortal.getPosition():" + targetPortal.getPosition());
+                player.changeMap(targetMap, targetPortal);
+            }
+            else{
+                player.changeMap(targetMap, targetMap.getRandomPlayerSpawnpoint());
+            }
         } catch (Exception ex) {
+            System.out.println("Error:" + ex.getMessage());
             player.yellowMessage("Map ID " + params[0] + " is invalid.");
         }
     }

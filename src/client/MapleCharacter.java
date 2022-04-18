@@ -1785,6 +1785,7 @@ public class MapleCharacter extends AbstractMapleCharacterObject {
     }
 
     private void changeMapInternal(final MapleMap to, final Point pos, final byte[] warpPacket) {
+        System.out.println("MapleCharacter.changeMapInternal mapID:" + to.getId() + " pos:"+pos);
         if (!canWarpMap) {
             return;
         }

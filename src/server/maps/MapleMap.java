@@ -3174,7 +3174,18 @@ public class MapleMap {
     }
 
     public MaplePortal getPortal(int portalid) {
-        return portals.get(portalid);
+        System.out.println("MaplePortal.getPortal portalid:" + portalid);
+        System.out.println("portals:" + portals);
+        System.out.println("portals.size():" + portals.size());
+        for (MaplePortal port : portals.values()) {
+            System.out.println("port id:" + port.getId() + " name:" + port.getName());
+        }
+        if(portals.containsKey(portalid)){
+            return portals.get(portalid);
+        }
+        else{
+            return null;
+        }
     }
     
     public void addMapleArea(Rectangle rec) {

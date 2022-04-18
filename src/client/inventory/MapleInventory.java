@@ -50,7 +50,7 @@ import server.ThreadManager;
  */
 public class MapleInventory implements Iterable<Item> {
     protected MapleCharacter owner;
-    protected Map<Short, Item> inventory = new LinkedHashMap<>();
+    public Map<Short, Item> inventory = new LinkedHashMap<>();
     protected byte slotLimit;
     protected MapleInventoryType type;
     protected boolean checked = false;

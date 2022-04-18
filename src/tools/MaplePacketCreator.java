@@ -1079,6 +1079,7 @@ public class MaplePacketCreator {
          * @return The map change packet.
          */
         public static byte[] getWarpToMap(MapleMap to, int spawnPoint, MapleCharacter chr) {
+                System.out.println("MaplePacketCreator.getWarpToMap mapID:" + to.getId() + " spawnPoint:"+spawnPoint);
                 final MaplePacketLittleEndianWriter mplew = new MaplePacketLittleEndianWriter();
                 mplew.writeShort(SendOpcode.SET_FIELD.getValue());
                 mplew.writeInt(chr.getClient().getChannel() - 1);

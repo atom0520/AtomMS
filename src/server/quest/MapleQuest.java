@@ -178,7 +178,11 @@ public class MapleQuest {
             }
         }
     }
-    
+
+    public boolean isAutoPreComplete() {
+        return autoPreComplete;
+    }
+
     public boolean isAutoComplete() {
         return autoPreComplete || autoComplete;
     }

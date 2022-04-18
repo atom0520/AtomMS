@@ -119,9 +119,9 @@ public class MapleInventoryManipulator {
                             c.announce(MaplePacketCreator.getShowInventoryFull());
                             return false;
                         }
-                        if (owner != null) {
-                            nItem.setOwner(owner);
-                        }
+//                        if (owner != null) {
+//                            nItem.setOwner(owner);
+//                        }
                         c.announce(MaplePacketCreator.modifyInventory(true, Collections.singletonList(new ModifyInventory(0, nItem))));
                         if(sandboxItem) chr.setHasSandboxItem();
                     } else {
@@ -146,9 +146,9 @@ public class MapleInventoryManipulator {
             Item nEquip = ii.getEquipById(itemId);
             nEquip.setFlag(flag);
             nEquip.setExpiration(expiration);
-            if (owner != null) {
-                nEquip.setOwner(owner);
-            }
+//            if (owner != null) {
+//                nEquip.setOwner(owner);
+//            }
             short newSlot = inv.addItem(nEquip);
             if (newSlot == -1) {
                 c.announce(MaplePacketCreator.getInventoryFull());
@@ -526,7 +526,7 @@ public class MapleInventoryManipulator {
             short flag = source.getFlag();      // thanks BHB for noticing flags missing after equipping these
             flag |= ItemConstants.UNTRADEABLE;
             source.setFlag(flag);
-            
+
             itemChanged = true;
         }
         if (dst == -6) { // unequip the overall
@@ -575,11 +575,11 @@ public class MapleInventoryManipulator {
                 chr.getMount().setItemId(source.getItemId());
             }
         }
-        
+
         //1112413, 1112414, 1112405 (Lilin's Ring)
         source = (Equip) eqpInv.getItem(src);
         eqpInv.removeSlot(src);
-        
+
         Equip target;
         eqpdInv.lockInventory();
         try {
@@ -597,9 +597,9 @@ public class MapleInventoryManipulator {
             mods.add(new ModifyInventory(3, source));
             mods.add(new ModifyInventory(0, source.copy()));//to prevent crashes
         }
-        
+
         source.setPosition(dst);
-        
+
         eqpdInv.lockInventory();
         try {
             if (source.getRingId() > -1) {
@@ -610,7 +610,7 @@ public class MapleInventoryManipulator {
         } finally {
             eqpdInv.unlockInventory();
         }
-        
+
         if (target != null) {
             target.setPosition(src);
             eqpInv.addItemFromDB(target);
@@ -618,7 +618,7 @@ public class MapleInventoryManipulator {
         if (chr.getBuffedValue(MapleBuffStat.BOOSTER) != null && ItemConstants.isWeapon(source.getItemId())) {
             chr.cancelBuffStats(MapleBuffStat.BOOSTER);
         }
-        
+
         mods.add(new ModifyInventory(2, source, src));
         c.announce(MaplePacketCreator.modifyInventory(true, mods));
         chr.equipChanged();

@@ -77,27 +77,27 @@ public final class QuestActionHandler extends AbstractMaplePacketHandler {
 
         System.out.println("action:"+action);
         System.out.println("questid:"+questid);
+        System.out.println("quest.isAutoPreComplete():"+quest.isAutoPreComplete());
 
         if (action == 0) { // Restore lost item, Credits Darter ( Rajan )
             slea.readInt();
             int itemid = slea.readInt();
             quest.restoreLostItem(player, itemid);
-        } else if (action == 1) { //Start Quest
+        } else if (action == 1 && !quest.isAutoPreComplete()) { //Start Quest
             int npc = slea.readInt();
             if(!isNpcNearby(slea, player, quest, npc)) {
                 return;
             }
-            
             if(quest.canStart(player, npc)) {
                 quest.start(player, npc);
             }
-        } else if (action == 2) { // Complete Quest
+        } else if ((action == 1 && quest.isAutoPreComplete()) || action == 2) { // Complete Quest
             int npc = slea.readInt();
             if(!isNpcNearby(slea, player, quest, npc)) {
                 return;
             }
             
-            if(quest.canComplete(player, npc)) {
+            if(quest.isAutoPreComplete() || quest.canComplete(player, npc)) {
                 if (slea.available() >= 2) {
                     int selection = slea.readShort();
                     quest.complete(player, npc, selection);
